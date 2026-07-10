@@ -1,17 +1,18 @@
 ﻿var rectangle1 = new Rectangle(5, 10);
 var calculator = new ShapesMeasurementsCalculator();
 Console.WriteLine($"Width is {rectangle1.Width}");
-Console.WriteLine($"Height is {rectangle1.Height}");
-Console.WriteLine($"Area is {calculator.CalculateRectangleArea(rectangle1)}");
-Console.WriteLine($"Circumference is {calculator.CalculateRectangleCircumference(rectangle1)}");
+
+Console.WriteLine($"Height is {rectangle1.GetHeight()}");
+Console.WriteLine($"Area is {calculator.CalculateRectangleArea(rectangle1.GetHeight(), rectangle1.GetWidth())}");
+Console.WriteLine($"Circumference is {calculator.CalculateRectangleCircumference(rectangle1.GetHeight(), rectangle1.GetWidth())}");
 
 var rectangle2 = new Rectangle(2, 3);
 
 
-Console.WriteLine($"Width is {rectangle2.Width}");
-Console.WriteLine($"Height is {rectangle2.Height}");
-Console.WriteLine($"Area is {calculator.CalculateRectangleArea(rectangle2)}");
-Console.WriteLine($"Circumference is {calculator.CalculateRectangleCircumference(rectangle2)}");
+Console.WriteLine($"Width is {rectangle2.GetWidth()}");
+Console.WriteLine($"Height is {rectangle2.GetHeight()}");
+Console.WriteLine($"Area is {calculator.CalculateRectangleArea(rectangle2.GetHeight(), rectangle2.GetWidth())}");
+Console.WriteLine($"Circumference is {calculator.CalculateRectangleCircumference(rectangle2.GetHeight(), rectangle2.GetWidth())}");
 
 var medicalAppointment = new MedicalAppointment("Oleh Husak", new DateTime(2023, 2, 10));
 
@@ -25,25 +26,36 @@ class Rectangle
 {
     // public - naming start from uppercase, for example Width, Height
     // private - naming start from _, for example _width, _height
-    public int Width;
-    public int Height;
+
+
+    public int Width { get; private set; }
+
+    private int _height;
 
     // constructor
     public Rectangle(int width, int height)
     {
         Width = width;
-        Height = height;
+        _height = height;
 
     }
 
-
+    public int GetHeight() => _height;
+    public int GetWidth() => Width;
+    public void SetHeight(int value)
+    {
+        if (value > 0)
+        {
+            _height = value;
+        }
+    }
 }
 
 class ShapesMeasurementsCalculator
 {
-    public int CalculateRectangleCircumference(Rectangle rectangle) => 2 * rectangle.Width + 2 * rectangle.Height;
+    public int CalculateRectangleCircumference(int rectangleHeight, int rectangleWeight) => 2 * rectangleWeight + 2 * rectangleHeight;
 
-    public int CalculateRectangleArea(Rectangle rectangle) => rectangle.Width * rectangle.Height;
+    public int CalculateRectangleArea(int rectangleHeight, int rectangleWeight) => rectangleWeight * rectangleHeight;
 
 }
 
@@ -170,5 +182,30 @@ class Dog
                 break;
         }
         return $"This dog is named {_name}, it's a {_breed}, and it weighs {_weight} kilograms, so it's a {dogWeightAsText} dog.";
+    }
+}
+
+class Order
+{
+    public string Item { get; }
+    private DateTime _date;
+    public DateTime Date
+    {
+        get => _date;
+        set
+        {
+            if (value.Year == DateTime.Now.Year)
+            {
+                _date = value;
+            }
+        }
+    }
+
+
+
+    public Order(string item, DateTime date)
+    {
+        Item = item;
+        Date = date;
     }
 }
