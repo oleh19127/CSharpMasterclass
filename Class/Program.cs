@@ -49,6 +49,7 @@ class Rectangle
             _height = value;
         }
     }
+    public string Description() => $"A rectangle with width {Width} and height {_height}";
 }
 
 class ShapesMeasurementsCalculator
@@ -92,6 +93,8 @@ public class Triangle
     {
         return $"Base is {_base}, height is {_height}";
     }
+
+
 }
 
 class MedicalAppointmentPrinter
@@ -207,5 +210,65 @@ class Order
     {
         Item = item;
         Date = date;
+    }
+}
+
+class DailyAccountState
+{
+    public int InitialState { get; }
+
+    public int SumOfOperations { get; }
+
+    public DailyAccountState(
+        int initialState,
+        int sumOfOperations)
+    {
+        InitialState = initialState;
+        SumOfOperations = sumOfOperations;
+    }
+
+
+    // method
+    // public int EndOfDayState() => InitialState + SumOfOperations;
+    // computed property
+    public int EndOfDayState => InitialState + SumOfOperations;
+    public string Report() => $"Day: {DateTime.Now.Day}, month: {DateTime.Now.Month}, year: {DateTime.Now.Year}, initial state: {InitialState}, end of day state: {EndOfDayState}";
+}
+
+public static class NumberToDayOfWeekTranslator
+{
+    public static string Translate(int value)
+    {
+        switch (value)
+        {
+            case 1:
+                return "Monday";
+            case 2:
+                return "Tuesday";
+            case 3:
+                return "Wednesday";
+            case 4:
+                return "Thursday";
+            case 5:
+                return "Friday";
+            case 6:
+                return "Saturday";
+            case 7:
+                return "Sunday";
+            default:
+                return "Invalid day of the week";
+        }
+    }
+}
+
+public static class StringsTransformator
+{
+    public static string TransformSeparators(
+        string input,
+        string originalSeparator,
+        string targetSeparator)
+    {
+        var resultOfSplit = input.Split(originalSeparator);
+        return string.Join(targetSeparator, resultOfSplit);
     }
 }
