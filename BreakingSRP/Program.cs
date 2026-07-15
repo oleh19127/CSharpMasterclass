@@ -1,4 +1,6 @@
-﻿var names = new Names();
+﻿using BreakingSRP.DataAccess;
+
+var names = new Names();
 var path = new NamesFileBuilder().BuildFilePath();
 var stringTextualRepository = new StringTextualRepository();
 if (File.Exists(path))
@@ -20,61 +22,3 @@ else
 }
 Console.WriteLine(new NamesFormatter().Format(names.All));
 Console.ReadKey();
-class NamesFileBuilder
-{
-	public string BuildFilePath()
-	{
-		return "names.txt";
-	}
-}
-class NamesValidator
-{
-	public bool IsValid(string name)
-	{
-		return name.Length >= 2 && name.Length < 25 && char.IsUpper(name[0]) && name.All(char.IsLetter);
-	}
-}
-
-class StringTextualRepository
-{
-	private static readonly string Separator = Environment.NewLine;
-	public List<string> Read(string filePath)
-	{
-		var fileContents = File.ReadAllText(filePath);
-		return fileContents.Split(Separator).ToList();
-
-	}
-	public void Write(string filePath, List<string> strings)
-	{
-		File.WriteAllText(filePath, string.Join(Separator, strings));
-	}
-}
-
-class NamesFormatter
-{
-	public string Format(List<string> names)
-	{
-		return string.Join(Environment.NewLine + "------" + Environment.NewLine, names);
-	}
-}
-class Names
-{
-	public List<string> All { get; } = new List<string>();
-	private readonly NamesValidator _namesValidator = new NamesValidator();
-
-	public void AddNames(List<string> stringsFromFile)
-	{
-		foreach (var name in stringsFromFile)
-		{
-			AddName(name);
-		}
-	}
-
-	public void AddName(string name)
-	{
-		if (_namesValidator.IsValid(name))
-		{
-			All.Add(name);
-		}
-	}
-}
